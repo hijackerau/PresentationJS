@@ -586,30 +586,37 @@ function theme(theme) {
 		presentation.currThemeColour.r = 106;
 		presentation.currThemeColour.g = 247;
 		presentation.currThemeColour.b = 250;
-	} else if (theme == "radiance") {
-		imgSpan.innerHTML += "<img src='Themes/radiance.png' id='themeimg'></img>";
+	}
+	if (theme == "radiance") {
+		imgSpan.innerHTML += "<img src='" + presentation.themeLocation + "/radiance.png' id='themeimg'></img>";
 	} else if (theme == "sparkle") {
-		imgSpan.innerHTML += "<img src='Themes/sparkle.png' id='themeimg'></img>";
+		imgSpan.innerHTML += "<img src='" + presentation.themeLocation + "/sparkle.png' id='themeimg'></img>";
 	} else if (theme == "slice") {
-		imgSpan.innerHTML += "<img src='Themes/slice.png' id='themeimg'></img>";
+		imgSpan.innerHTML += "<img src='" + presentation.themeLocation + "/slice.png' id='themeimg'></img>";
 	} else if (theme == "dream") {
-		imgSpan.innerHTML += "<img src='Themes/dream.png' id='themeimg'></img>";
+		imgSpan.innerHTML += "<img src='" + presentation.themeLocation + "/dream.png' id='themeimg'></img>";
 	} else if (theme == "space") {
-		imgSpan.innerHTML += "<img src='Themes/space.png' id='themeimg'></img>";
+		imgSpan.innerHTML += "<img src='" + presentation.themeLocation + "/space.png' id='themeimg'></img>";
 	} else if (theme == "bubbles") {
-		imgSpan.innerHTML += "<img src='Themes/bubbles.png' id='themeimg'></img>";
+		imgSpan.innerHTML += "<img src='" + presentation.themeLocation + "/bubbles.png' id='themeimg'></img>";
 	} else if (theme == "quote") {
-		imgSpan.innerHTML += "<img src='Themes/quote.png' id='themeimg'></img>";
+		imgSpan.innerHTML += "<img src='" + presentation.themeLocation + "/quote.png' id='themeimg'></img>";
 	} else if (theme == "yosemite") {
-		imgSpan.innerHTML += "<img src='Themes/yosemitecompressed.png' id='compressedthemeimg'></img>";
-		imgSpan.innerHTML += "<img src='Themes/yosemite.png' id='themeimg'></img>";
+		imgSpan.innerHTML += "<img src='" + presentation.themeLocation + "/yosemitecompressed.png' id='compressedthemeimg'></img>";
+		imgSpan.innerHTML += "<img src='" + presentation.themeLocation + "/yosemite.png' id='themeimg'></img>";
 	} else if (theme == "coast") {
-		imgSpan.innerHTML += "<img src='Themes/coastcompressed.png' id='compressedthemeimg'></img>";
-		imgSpan.innerHTML += "<img src='Themes/coast.jpg' id='themeimg'></img>";
+		imgSpan.innerHTML += "<img src='" + presentation.themeLocation + "/coastcompressed.png' id='compressedthemeimg'></img>";
+		imgSpan.innerHTML += "<img src='" + presentation.themeLocation + "/coast.jpg' id='themeimg'></img>";
 	} else if (theme == "iceland") {
-		imgSpan.innerHTML += "<img src='Themes/iceland.jpg' id='themeimg'></img>";
+		imgSpan.innerHTML += "<img src='" + presentation.themeLocation + "/iceland.jpg' id='themeimg'></img>";
 	} else if (theme == "waterfall") {
-		imgSpan.innerHTML += "<img src='Themes/waterfall.jpg' id='themeimg'></img>";
+		imgSpan.innerHTML += "<img src='" + presentation.themeLocation + "/waterfall.jpg' id='themeimg'></img>";
+	} else {
+		return 0;
+	}
+	if (!presentation.themeLocationCalled) {
+		presentation.load = false;
+		alert("Theme location error:\nYou have not specified a theme location before calling the theme function.");
 	}
 }
 //Specific y margins are not good because they are not responsive and may render disastorous on smaller devices.
@@ -622,6 +629,28 @@ function changeMargin(y) {
 		presentation.margin = y;
 	}
 };
+
+//Enter where the themes are stored. Use this function before you designate a theme.
+function themeLocation(location) {
+	if (presentation.themeLocationCalled) {
+		presentation.load = false;
+		alert("Theme Location Error:\nMore than one location for the theme has been designated.")
+	} else {
+		presentation.themeLocationCalled = true;
+		presentation.themeLocation = location;
+	}
+};
+
+function noTitleSlideAuthor() {
+	if (presentation.noTitleSlideAuthorCalled) {
+		presentation.load = false;
+		alert("Title Slide Error:\nYou have declared to not display a title slide author more then once.")
+	} else {
+		presentation.noTitleSlideAuthorCalled = true;
+		titleSlideAuthor("");
+	}
+};
+
 function draw() {
 	if (!presentation.end && presentation.load) {
 		if (!presentation.changeMarginCalled) {
@@ -640,7 +669,7 @@ function draw() {
 			ctx.fillRect(0,0,innerWidth,innerHeight);
 		} else if (presentation.themeCalled) {
 			switch(presentation.theme) {
-				/*-----Add your own themes here-----*/
+				/*-----Add your own theme here-----*/
 				case "default":
 					ctx.fillStyle = "white";
 					ctx.fillRect(0,0,innerWidth,innerHeight);
@@ -755,8 +784,10 @@ function draw() {
 			ctx.fillStyle = presentation.titleSlide.colour;
 			ctx.textAlign = "center";
 			ctx.fillText(presentation.titleSlide.heading, innerWidth/2, innerHeight/3);
-			ctx.font = Math.round(innerWidth/22).toString() + "px " + presentation.titleSlide.font;
-			ctx.fillText("by " + presentation.titleSlide.author, innerWidth/2, innerHeight/5*3);
+			if (presentation.titleSlide.author != "") {
+				ctx.font = Math.round(innerWidth/22).toString() + "px " + presentation.titleSlide.font;
+				ctx.fillText("by " + presentation.titleSlide.author, innerWidth/2, innerHeight/5*3);
+			}
 		} else {
 			//Headings
 			ctx.font = Math.round(innerWidth/27).toString() + "px " + presentation.slides[presentation.slide-1].headingFont;
@@ -986,7 +1017,7 @@ function endPresent() {
 		ctx.fillRect(0,0,innerWidth,innerHeight);
 	} else if (presentation.themeCalled) {
 		switch(presentation.theme) {
-			/*-----Add your own themes here-----*/
+			/*-----Add your own theme here-----*/
 			case "default":
 				ctx.fillStyle = "white";
 				ctx.fillRect(0,0,innerWidth,innerHeight);
@@ -1134,6 +1165,8 @@ var presentation = {
 	slideNums: true,
 	framerate: 25,
 	load: false,
+	themeLocation: "",
+	themeLocationCalled: false,
 	readyCalled: false,
 	backgroundCalled: false,
 	themeCalled: false,
@@ -1141,6 +1174,7 @@ var presentation = {
 	customiseEndMessageCalled: false,
 	changeMarginCalled: false,
 	titleCalled: false,
+	noTitleSlideAuthorCalled: false,
 	framerateCalled: false,
 	bkgcolour: "white",
 	theme: "",
