@@ -1,4 +1,4 @@
-/*PresentationJS v0.1(pre-alpha)*/
+/*PresentationJS v0.2(pre-alpha)*/
 
 //PresentationJS is part of the OfficeJS series and may be changed or used for non-commercial use.
 //It may also be distributed, under the conditions that it has not been changed and is in text format.
