@@ -611,6 +611,15 @@ function theme(theme) {
 		imgSpan.innerHTML += "<img src='" + presentation.themeLocation + "/iceland.jpg' id='themeimg'></img>";
 	} else if (theme == "waterfall") {
 		imgSpan.innerHTML += "<img src='" + presentation.themeLocation + "/waterfall.jpg' id='themeimg'></img>";
+	} else if (theme == "ancient map") {
+		imgSpan.innerHTML += "<img src='" + presentation.themeLocation + "/ancient_mapcompressed.png' id='compressedthemeimg'></img>";
+		imgSpan.innerHTML += "<img src='" + presentation.themeLocation + "/ancient_map.jpg' id='themeimg'></img>";
+	} else if (theme == "mountain") {
+		imgSpan.innerHTML += "<img src='" + presentation.themeLocation + "/mountain.jpg' id='themeimg'></img>";
+	} else if (theme == "city") {
+		imgSpan.innerHTML += "<img src='" + presentation.themeLocation + "/city.jpg' id='themeimg'></img>";
+	} else if (theme == "nature") {
+		imgSpan.innerHTML += "<img src='" + presentation.themeLocation + "/nature.jpg' id='themeimg'></img>";
 	} else {
 		return 0;
 	}
@@ -653,6 +662,10 @@ function noTitleSlideAuthor() {
 
 function draw() {
 	if (!presentation.end && presentation.load) {
+		if (presentation.hash != location.hash.substr(1, location.hash.length)) {
+			presentation.hash = location.hash.substr(1, location.hash.length);
+			location.reload();
+		}
 		if (!presentation.changeMarginCalled) {
 			presentation.margin = Math.round(innerWidth/34);
 		}
@@ -746,10 +759,14 @@ function draw() {
 				case "quote":
 				case "iceland":
 				case "waterfall":
+				case "mountain":
+				case "city":
+				case "nature":
 					ctx.drawImage(document.getElementById("themeimg"), 0, 0, innerWidth, innerHeight);
 					break;
 				case "yosemite":
 				case "coast":
+				case "ancient map":
 					ctx.drawImage(document.getElementById("compressedthemeimg"), 0, 0, innerWidth, innerHeight);
 					ctx.drawImage(document.getElementById("themeimg"), 0, 0, innerWidth, innerHeight);
 					break;
@@ -1062,10 +1079,14 @@ function endPresent() {
 				case "quote":
 				case "iceland":
 				case "waterfall":
+				case "mountain":
+				case "city":
+				case "nature":
 					ctx.drawImage(document.getElementById("themeimg"), 0, 0, innerWidth, innerHeight);
 					break;
 				case "yosemite":
 				case "coast":
+				case "ancient map":
 					ctx.drawImage(document.getElementById("compressedthemeimg"), 0, 0, innerWidth, innerHeight);
 					ctx.drawImage(document.getElementById("themeimg"), 0, 0, innerWidth, innerHeight);
 					break;
@@ -1105,6 +1126,12 @@ document.addEventListener("webkitfullscreenchange", function() {
 		presentation.fullscreen = !presentation.fullscreen;
 	}
 });
+document.addEventListener("dblclick", function(event){
+	event.preventDefault();
+	if (presentation.slide != 1) {
+		presentation.slide--;
+	}
+});
 document.addEventListener("click", function(event){
 	if (presentation.load) {
 		for (var i = 0; i < presentation.slides[presentation.slide-1].content.length; i++) {
@@ -1138,20 +1165,24 @@ document.addEventListener("click", function(event){
 });
 document.addEventListener("keydown", function(event){
 	if (presentation.load) {
-		if (event.which == 39) {
+		if (event.which == 39 || event.which == 13 || event.which == 32) {
 			event.preventDefault();
 			if (presentation.slide == presentation.slides.length) {
 				endPresent();
 			} else {
 				presentation.slide++;
 			}
-		} else if (event.which == 37) {
+		} else if (event.which == 37 || event.which == 8) {
 			event.preventDefault();
 			if (presentation.end) {
 				presentation.end = false;
 			} else if (presentation.slide != 1) {
 				presentation.slide--;
 			}
+		} else if (event.which == 35) {
+			endPresent();
+		} else if (event.which == 38 || event.which == 40) {
+			event.preventDefault();
 		}
 	}
 });
@@ -1211,6 +1242,10 @@ function launchIntoFullscreen(element) {
 //Warning: 'high' mode is the highest quality but is not good if you have a non-advisable CPU (around an Intel i3, Intel Pentium or Atom)
 function ready(framerate) {
 	presentation.load = true;
+	if (location.hash != "" || location.hash) {
+		presentation.slide = location.hash.substr(1, location.hash.length);
+		presentation.hash = location.hash.substr(1, location.hash.length);
+	}
 	if (!document.getElementById("canvas")) {
 		presentation.load = false;
 		alert("Load Error:\nYou have called the ready function before the page has loaded.\nPlease call it afterwards by either inserting a <script> tag calling it\nor add an attribute to body like this: onload='ready()', and insert between the parentheses the chosen framerate (or graphics feedback speed)");
