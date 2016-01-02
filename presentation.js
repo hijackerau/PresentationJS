@@ -3,7 +3,7 @@
 //PresentationJS is part of the OfficeJS series and may be changed or used for non-commercial use.
 //It may also be distributed, under the conditions that it has not been changed and is in text format.
 
-var canvas, ctx, imgSpan, soundSpan, videoSpan, content;
+var canvas, ctx, imgSpan, videoSpan, content;
 function slidesToGo() {
 	if (!presentation.slideNums) {
 		presentation.load = false;
@@ -662,7 +662,9 @@ function noTitleSlideAuthor() {
 
 function draw() {
 	if (!presentation.end && presentation.load) {
-		if (presentation.hash != location.hash.substr(1, location.hash.length)) {
+		if (presentation.hash != "" && location.hash.substr(1, location.hash.length) == "") {
+			presentation.hash = "";
+		} else if (location.hash.substr(1, location.hash.length) != "" && presentation.hash != location.hash.substr(1, location.hash.length)) {
 			presentation.hash = location.hash.substr(1, location.hash.length);
 			location.reload();
 		}
@@ -670,9 +672,6 @@ function draw() {
 			presentation.margin = Math.round(innerWidth/34);
 		}
 		presentation.frametime++;
-		presentation.currImgNum = presentation.lastImgNum;
-		presentation.currVideoNum = presentation.lastVideoNum;
-		presentation.currSoundNum = presentation.lastSoundNum;
 		//Background/Theme
 		if (presentation.backgroundCalled && presentation.themeCalled) {
 			presentation.load = false;
@@ -815,7 +814,6 @@ function draw() {
 			presentation.slides[presentation.slide-1].currY = innerHeight/5;
 			presentation.slides[presentation.slide-1].currImgNum = 0;
 			presentation.slides[presentation.slide-1].currVideoNum = 0;
-			presentation.slides[presentation.slide-1].currSoundNum = 0;
 			for (var i = 0; i < presentation.slides[presentation.slide-1].content.length; i++) {
 				content = presentation.slides[presentation.slide-1].content[i];
 				switch (content.type) {
@@ -1101,7 +1099,9 @@ function endPresent() {
 		}
 	}
 	ctx.font = Math.round(innerWidth/20).toString() + "px Comic Sans MS";
-	if (presentation.bkgcolour != "white") {
+	if (presentation.titleSlide.colour) {
+		ctx.fillStyle = presentation.titleSlide.colour;
+	} else if (presentation.bkgcolour != "white") {
 		ctx.fillStyle = "white";
 	} else {
 		ctx.fillStyle = "black";
@@ -1210,6 +1210,7 @@ var presentation = {
 	bkgcolour: "white",
 	theme: "",
 	direction: "down",
+	hash: "",
 	currThemeColour: {
 		r: 0,
 		g: 0,
@@ -1284,7 +1285,7 @@ function ready(framerate) {
 			document.documentElement.style.overflow = 'hidden';
 			document.body.scroll = "no";
 			imgSpan = document.getElementById("imgSpan");
-			soundSpan = document.getElementById("soundSpan");
+			videoSpan = document.getElementById("videoSpan");
 			canvas = document.getElementById("canvas");
 			ctx = canvas.getContext("2d");
 			ctx.strokeStyle = "black";
