@@ -18,8 +18,8 @@ Displays the number of slides to go instead of the slide number
 
 ###title(*str*)
 ---
-*str*    The name of the title on the title page
+*str*&nbsp;&nbsp;&nbsp;&nbsp;The name of the title on the title page
 
 ###designateTitleSlide(*slide*)
 ---
-*slide*    The slide number to designate as the title page
+*slide*&nbsp;&nbsp;&nbsp;&nbsp;The slide number to designate as the title page
