@@ -30,8 +30,8 @@ Designates a slide as the title page
 
 ###titleSlideHeading(*title*, *colour*, *font*)
 ---
-*title*&nbsp;&nbsp;&nbsp;&nbsp;The name of the title of the title page
-*colour*&nbsp;&nbsp;&nbsp;The colour of the title of the title page
+*title*&nbsp;&nbsp;&nbsp;&nbsp;The name of the title of the title page<br>
+*colour*&nbsp;&nbsp;&nbsp;The colour of the title of the title page<br>
 *font*&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;The font of the title of the title page
 
 Sets up the title for the title page
