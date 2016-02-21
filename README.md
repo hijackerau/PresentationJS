@@ -18,8 +18,26 @@ Displays the number of slides to go instead of the slide number
 
 ###title(*str*)
 ---
-*str*&nbsp;&nbsp;&nbsp;&nbsp;The name of the title on the title page
+*str*&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;The name of the title on the page tab
+
+Displays a title for the page tab
 
 ###designateTitleSlide(*slide*)
 ---
 *slide*&nbsp;&nbsp;&nbsp;&nbsp;The slide number to designate as the title page
+
+Designates a slide as the title page
+
+###titleSlideHeading(*title*, *colour*, *font*)
+---
+*title*&nbsp;&nbsp;&nbsp;&nbsp;The name of the title of the title page
+*colour*&nbsp;&nbsp;&nbsp;The colour of the title of the title page
+*font*&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;The font of the title of the title page
+
+Sets up the title for the title page
+
+###titleSlideAuthor(*author*)
+---
+*author*&nbsp;&nbsp;&nbsp;The author name displayed on the title page
+
+Chooses an author for the title page
