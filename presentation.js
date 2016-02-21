@@ -662,7 +662,10 @@ function noTitleSlideAuthor() {
 
 function draw() {
 	if (!presentation.end && presentation.load) {
-		if (presentation.hash != "" && location.hash.substr(1, location.hash.length) == "") {
+		if (location.hash.substr(1, location.hash.length) > presentation.slides.length) {
+			presentation.load = false;
+			alert("Location Error:/nThe slide you specified in your hash (#" +  location.hash.substr(1, location.hash.length)  + ") does not exist.");
+		} if (presentation.hash != "" && location.hash.substr(1, location.hash.length) == "") {
 			presentation.hash = "";
 		} else if (location.hash.substr(1, location.hash.length) != "" && presentation.hash != location.hash.substr(1, location.hash.length)) {
 			presentation.hash = location.hash.substr(1, location.hash.length);
