@@ -1,5 +1,4 @@
 # PresentationJS
-<<<<<<< HEAD
 
 PresentationJS is a HTML/JS framework for creating web presentations with HTML canvas.
 The presentations are made using JavaScript and referenced from the main HTML file.
@@ -24,4 +23,3 @@ Displays the number of slides to go instead of the slide number
 ###designateTitleSlide(*slide*)
 ---
 *slide* The slide number to designate as the title page
->>>>>>> origin/master
